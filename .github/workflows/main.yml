@@ -1,25 +1,22 @@
-version: 0.2
+name: Blockchain Polling System Pipeline
 
-phases:
-  install:
-    runtime-versions:
-      nodejs: 14
-    commands:
-      - npm install -g truffle ganache-cli
-      - npm install
-  pre_build:
-    commands:
-      - truffle compile
+on:
+  push:
+    branches:
+      - main
+
+jobs:
   build:
-    commands:
-      - truffle test
-      - cd frontend
-      - npm install
-      - npm run build
-  post_build:
-    commands:
-      - mkdir -p artifacts
-      - cp -r build artifacts/
-artifacts:
-  files:
-    - artifacts/**
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
