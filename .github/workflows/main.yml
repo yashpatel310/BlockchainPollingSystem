@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - npm install -g truffle ganache-cli
+      - npm install
+  pre_build:
+    commands:
+      - truffle compile
+  build:
+    commands:
+      - truffle test
+      - cd frontend
+      - npm install
+      - npm run build
+  post_build:
+    commands:
+      - mkdir -p artifacts
+      - cp -r build artifacts/
+artifacts:
+  files:
+    - artifacts/**
