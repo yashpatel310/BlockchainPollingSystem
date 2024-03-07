@@ -47,10 +47,10 @@ jobs:
 #            exit $exit_code
 #          fi
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
+#  deploy:
+#    runs-on: ubuntu-latest
+#    needs: test
 
-   steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+#   steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
