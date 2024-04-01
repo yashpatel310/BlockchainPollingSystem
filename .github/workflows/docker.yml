@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main  
+      - main 
 
 jobs:
   build-and-push:
@@ -26,8 +26,9 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./Dockerfile 
           push: true
           tags: |
             your-dockerhub-yash2232/project:latest
             your-dockerhub-yash2232/project:${{ github.sha }}
-            # You can define more tags as needed
+          
