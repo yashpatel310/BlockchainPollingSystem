@@ -48,10 +48,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
     
       - name: Build Docker image
-        run: docker build -t yash2232/final_project:tagname:latest .
+        run: docker build -t yash2232/final_project:latest .
       
       - name: Push Docker image
-        run: docker push yash2232/final_project:tagname:latest
+        run: docker push yash2232/final_project:latest
 
   deploy:
     runs-on: ubuntu-latest
