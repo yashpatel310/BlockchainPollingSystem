@@ -46,7 +46,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t yash2232/project/latest . -f build/Dockerfile.project .
+          docker buildx build -t yash2232/project/latest . -f build/Dockerfile.project
           docker push yash2232/project/latest
 
   deploy:
