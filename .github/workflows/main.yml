@@ -47,13 +47,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
     
-      - name: Build Docker image
       - name: Build and push Docker images
         uses: docker/build-push-action@v5.3.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
+          context: .
+          push: true
+          tags: yash2232/final_project:latest
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          dockerfile: Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
