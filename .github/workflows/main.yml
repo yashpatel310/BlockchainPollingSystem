@@ -39,7 +39,14 @@ jobs:
             !venv/
       - name: Install Solidity compiler
         run: sudo add-apt-repository -y ppa:ethereum/ethereum && sudo apt-get update && sudo apt-get install -y solc
-
+     
+      - name: Build and push Docker Image
+         uses:  mr-smithers-excellent/docker-build-push@v4
+         with:
+           image: yash2232/final_project:tagname
+           registry: docker.io
+           username: ${{ secrets.DOCKER_USERNAME }}
+           password: ${{ secrets.DCOKER_PASSWORD }}
 
   deploy:
     runs-on: ubuntu-latest
