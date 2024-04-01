@@ -46,8 +46,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t docker-hub-repo/image-name .
-          docker push docker-hub-repo/image-name
+          docker build -t yash2232/project/latest .
+          docker push yash2232/project/latest
 
   deploy:
     runs-on: ubuntu-latest
