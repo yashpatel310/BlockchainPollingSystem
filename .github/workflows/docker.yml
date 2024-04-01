@@ -10,13 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v4
         with:
-          image: yash2232/project/latest
-          registry: dig doker.io
+          image: repo/image
+          tags: v1, latest
+          registry: doker.io  # Update the registry URL here
+          dockerfile: Dockerfile.ci
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
