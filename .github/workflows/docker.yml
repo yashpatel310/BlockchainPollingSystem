@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main  
+      - main  # Change this to the branch you want to trigger the workflow on
 
 jobs:
   build-and-push:
@@ -13,12 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-    
+      # Add a step to create the Dockerfile if it doesn't exist
       - name: Create Dockerfile
         run: |
           if [ ! -f Dockerfile ]; then
             echo "FROM ubuntu:latest" > Dockerfile
-            echo "RUN apt-get update && apt-get install -y <your-package>" >> Dockerfile
+            echo "RUN apt-get update && apt-get install -y nginx" >> Dockerfile  # Adjust this line with the package you want to install
           fi
 
       - name: Set up Docker Buildx
@@ -39,4 +39,4 @@ jobs:
           tags: |
             your-dockerhub-username/project:latest
             your-dockerhub-username/project:${{ github.sha }}
-           
+            # You can define more tags as needed
