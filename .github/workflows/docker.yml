@@ -37,6 +37,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            your-dockerhub-username/project:latest
-            your-dockerhub-username/project:${{ github.sha }}
+            your-dockerhub-yash2232/project:latest
+            your-dockerhub-yash2232/project:${{ github.sha }}
 
