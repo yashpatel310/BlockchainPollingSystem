@@ -39,4 +39,4 @@ jobs:
           tags: |
             your-dockerhub-username/project:latest
             your-dockerhub-username/project:${{ github.sha }}
-            # You can define more tags as needed
+
