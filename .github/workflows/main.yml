@@ -46,12 +46,17 @@ jobs:
         run: |
           npm install -g ganache-cli
 
-      - name: Install MetaMask
+      - name: Check if MetaMask is installed
         run: |
-          wget https://github.com/MetaMask/metamask-extension/releases/download/v10.2.1/metamask-chrome-10.2.1.zip
-          unzip metamask-chrome-10.2.1.zip -d metamask
-          mkdir -p $HOME/.config/google-chrome/NativeMessagingHosts
-          mv metamask/chrome $HOME/.config/google-chrome/NativeMessagingHosts
+          if [ -d "$HOME/.config/google-chrome/NativeMessagingHosts" ]; then
+            if ls $HOME/.config/google-chrome/NativeMessagingHosts | grep -q metamask; then
+              echo "MetaMask is installed."
+            else
+              echo "MetaMask is not installed."
+            fi
+          else
+            echo "MetaMask is not installed."
+          fi
 
   deploy:
     runs-on: ubuntu-latest
