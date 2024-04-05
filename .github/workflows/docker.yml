@@ -18,7 +18,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t yash2232/project/latest :<tag> .
+      run: docker build -t yash2232/project:${{ github.sha }} .
 
     - name: Push Docker image to Docker Hub
-      run: docker push yash2232/project/latest :<tag>
+      run: docker push yash2232/project:${{ github.sha }}
