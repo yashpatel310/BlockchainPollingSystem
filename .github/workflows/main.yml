@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
+steps:
       - uses: actions/checkout@v4
 
       - name: Set up Python version
@@ -41,7 +41,7 @@ jobs:
       - name: Install Solidity compiler
         run: sudo add-apt-repository -y ppa:ethereum/ethereum && sudo apt-get update && sudo apt-get install -y solc
 
-      # Add steps to install Ganache and MetaMask
+      # Steps to install Ganache and MetaMask
       - name: Install Ganache
         run: |
           npm install -g ganache-cli
@@ -58,12 +58,9 @@ jobs:
             echo "MetaMask is not installed."
           fi
 
-  deploy:
+  test:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -71,9 +68,41 @@ jobs:
         with:
           name: python-app
 
-      - name: Unzip artifact for deployment
+      - name: Unzip artifact for testing
         run: unzip release.zip
 
-    #  - name: 'Deploy to GitHub'
-    #    uses: github.com@v2
-    #    id: deploy-to-github
+      - name: Test Solidity
+        run: solc --version
+
+      - name: Test Ganache
+        run: ganache-cli --version
+
+      - name: Test MetaMask
+        run: |
+          if [ -d "$HOME/.config/google-chrome/NativeMessagingHosts" ]; then
+            if ls $HOME/.config/google-chrome/NativeMessagingHosts | grep -q metamask; then
+              echo "MetaMask is installed."
+            else
+              echo "MetaMask is not installed."
+              exit 1
+            fi
+          else
+            echo "MetaMask is not installed."
+            exit 1
+          fi
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from test job
+        uses: actions/download-artifact@v3
+        with:
+          name: python-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
