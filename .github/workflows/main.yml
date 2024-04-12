@@ -38,9 +38,10 @@ jobs:
 
       - name: Install Solidity compiler
         run: |
-          sudo add-apt-repository -y ppa:ethereum/ethereum
-          sudo apt-get update
-          sudo apt-get install -y solc
+          wget https://github.com/ethereum/solidity/releases/download/v0.8.12/solc-static-linux
+          chmod +x solc-static-linux
+          sudo mv solc-static-linux /usr/local/bin/solc
+
 
       - name: Install Ganache
         run: npm install -g ganache-cli
