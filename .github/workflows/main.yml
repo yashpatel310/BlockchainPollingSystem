@@ -35,16 +35,12 @@ jobs:
         with:
           name: python-app
           path: release.zip
-
+      
       - name: Install Solidity compiler
         run: |
-          wget https://github.com/ethereum/solidity/releases/download/v0.8.12/solc-static-linux
-          chmod +x solc-static-linux
-          sudo mv solc-static-linux /usr/local/bin/solc
-          ls -l /usr/local/bin/solc  # Check if the file exists and has executable permissions
-          /usr/local/bin/solc --version  # Verify that the Solidity compiler is executable
-
-
+          sudo add-apt-repository -y ppa:ethereum/ethereum
+          sudo apt-get update
+          sudo apt-get install -y solc
 
       - name: Install Ganache
         run: npm install -g ganache-cli
