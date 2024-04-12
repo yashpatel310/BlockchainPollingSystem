@@ -73,9 +73,7 @@ jobs:
 
       - name: Test Solidity
         run: |
-          export PATH=$PATH:/usr/local/bin
-          solc --version
-
+          /usr/local/bin/solc --version
 
       - name: Test Ganache
         run: ganache-cli --version
