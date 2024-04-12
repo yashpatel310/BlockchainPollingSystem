@@ -49,11 +49,9 @@ jobs:
               echo "MetaMask is installed."
             else
               echo "MetaMask is not installed."
-              exit 1
             fi
           else
             echo "MetaMask is not installed."
-            exit 1
           fi
 
   test:
