@@ -10,15 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-steps:
-      - uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Python version
-        uses: actions/setup-python@v1
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
           python-version: '3.8'
 
-      - name: Create and start virtual environment
+      - name: Create and activate virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
@@ -26,25 +27,20 @@ steps:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -r release.zip .
 
       - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: python-app
-          path: |
-            release.zip
-            !venv/
-            
+          path: release.zip
+
       - name: Install Solidity compiler
         run: sudo add-apt-repository -y ppa:ethereum/ethereum && sudo apt-get update && sudo apt-get install -y solc
 
-      # Steps to install Ganache and MetaMask
       - name: Install Ganache
-        run: |
-          npm install -g ganache-cli
+        run: npm install -g ganache-cli
 
       - name: Check if MetaMask is installed
         run: |
@@ -53,9 +49,11 @@ steps:
               echo "MetaMask is installed."
             else
               echo "MetaMask is not installed."
+              exit 1
             fi
           else
             echo "MetaMask is not installed."
+            exit 1
           fi
 
   test:
@@ -64,12 +62,12 @@ steps:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: python-app
 
       - name: Unzip artifact for testing
-        run: unzip release.zip
+        run: unzip -o release.zip
 
       - name: Test Solidity
         run: solc --version
@@ -96,13 +94,12 @@ steps:
     needs: test
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from test job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip -o release.zip
